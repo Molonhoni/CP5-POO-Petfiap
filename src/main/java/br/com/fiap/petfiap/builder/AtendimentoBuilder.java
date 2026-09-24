@@ -20,10 +20,11 @@ public class AtendimentoBuilder {
         return this;
     }
 
-    public AtendimentoBuilder comPet(String petNome, String petPorte) {
-        petNome = petNome;
-        this.petPorte = petPorte;
-        return this;
+  public AtendimentoBuilder comPet(String petNome, String petPorte) {
+    this.petNome = petNome;
+    this.petPorte = petPorte;
+    return this;
+
     }
 
     public AtendimentoBuilder comTutor(String tutorNome) {
