@@ -18,19 +18,27 @@ public class AgendaService {
 
     // Agenda um novo atendimento: recusa horario ja ocupado pelo mesmo pet.
     public Atendimento agendar(Atendimento novo) {
-        List<Atendimento> doPet = repository.findByPetNome(novo.getPetNome());
-        for (Atendimento a : doPet) {
-            if (a.getPetNome() == novo.getPetNome() && a.getDataHora() == novo.getDataHora()
-                    && "AGENDADO".equals(a.getStatus())) {
-                throw new HorarioOcupadoException(
-                        "Pet " + novo.getPetNome() + " ja possui atendimento agendado nesse horario");
-            }
+    List<Atendimento> doPet = repository.findByPetNome(novo.getPetNome());
+
+    for (Atendimento a : doPet) {
+        if (a.getPetNome().equals(novo.getPetNome())
+                && a.getDataHora().equals(novo.getDataHora())
+                && "AGENDADO".equals(a.getStatus())) {
+
+            throw new HorarioOcupadoException(
+                    "Pet " + novo.getPetNome()
+                            + " ja possui atendimento agendado nesse horario");
         }
-        Atendimento salvo = repository.save(novo);
-        System.out.println("Recibo: atendimento " + salvo.getProtocolo()
-                + " agendado para " + salvo.getPetNome() + " (tutor " + salvo.getTutorNome() + ")");
-        return salvo;
     }
+
+    Atendimento salvo = repository.save(novo);
+
+    System.out.println("Recibo: atendimento " + salvo.getProtocolo()
+            + " agendado para " + salvo.getPetNome()
+            + " (tutor " + salvo.getTutorNome() + ")");
+
+    return salvo;
+}
 
     // Busca pelo id; nunca retorna null, o orElseThrow garante a excecao.
     public Atendimento buscarPorId(Long id) {
