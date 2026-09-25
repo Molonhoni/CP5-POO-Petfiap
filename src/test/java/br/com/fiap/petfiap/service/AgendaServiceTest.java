@@ -151,4 +151,20 @@ public void deveRecusarCancelamentoQuandoAtendimentoJaConcluido() {
     verify(repository, never()).save(any());
 }
 
+@Test
+public void deveCancelarAtendimentoQuandoEstiverAgendado() {
+    // Arrange
+    Banho agendado = banhoDoRexAmanha10h();
+
+    when(repository.findById(1L)).thenReturn(Optional.of(agendado));
+    when(repository.save(agendado)).thenReturn(agendado);
+
+    // Act
+    Atendimento cancelado = service.cancelar(1L);
+
+    // Assert
+    assertEquals("CANCELADO", cancelado.getStatus());
+    verify(repository).save(agendado);
+}
+
 }
